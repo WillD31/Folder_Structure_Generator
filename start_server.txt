@@ -1,0 +1,37 @@
+## Gunicorn (Linux)
+
+gunicorn api_server.app:api
+
+## Waitress (Windows)
+
+waitress-serve --port=8000 api_server.app:api
+
+
+----------------------
+How to start on server
+----------------------
+
+1) screen -dmSL falcon_api gunicorn api_server.app:api
+
+2) screen -x falcon_api
+
+
+------------
+API examples
+------------
+
+## Check if alive
+https://li1649-119.members.linode.com/api/alive
+
+## Folder structure generator
+https://li1649-119.members.linode.com/api/get_folder_structure?project_name=test_project&full_structure=1&include_git_ignore=1&templates=python_file,python_notebook,r_file,stata_file
+https://li1649-119.members.linode.com/api/get_folder_structure?project_name=test_project&full_structure=1&include_git_ignore=1&templates=python,stata,r
+
+
+http://DESKTOP-CBB8IUH:8000/get_folder_structure?project_name=test_project&full_structure=1&include_git_ignore=1&templates=python_file,python_notebook,r_file,stata_file
+
+
+
+
+
+

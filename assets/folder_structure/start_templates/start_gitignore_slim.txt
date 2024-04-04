@@ -1,0 +1,11 @@
+/*
+!.gitignore
+
+**untitled*.py
+**untitled*.txt
+**untitled*.do
+**untitled*.R
+**/.ipynb_checkpoints
+
+!1_code/
+

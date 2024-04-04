@@ -1,0 +1,14 @@
+/*
+!.gitignore
+
+**untitled*.py
+**untitled*.txt
+**untitled*.do
+**untitled*.R
+**/.ipynb_checkpoints
+
+!empirical/
+empirical/*
+!empirical/1_code/
+
+!paper/
