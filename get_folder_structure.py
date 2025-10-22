@@ -4,7 +4,7 @@ import re, os, math, time, sys, datetime
 from io import BytesIO
 from zipfile import ZipFile
 
-ASSETS_FOLDER = os.path.join('api_server', 'assets', 'folder_structure')
+ASSETS_FOLDER = os.path.join('assets', 'folder_structure')
 
 ## Logic
 
