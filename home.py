@@ -261,8 +261,8 @@ class HomeResource(object):
         <div class="footer">
             <p>API : <a href="/alive">/alive</a> | <a href="/get_folder_structure?project_name=demo&full_structure=1&include_git_ignore=1&templates=python_file">Exemple API</a></p>
             <p style="margin-top: 15px; font-size: 13px; color: #888;">
-                Projet initial de <a href="https://www.tiesdekok.com/" target="_blank">Ties de Kok</a> - 
-                Modifié par Virgile Jarrige (<a href="mailto:virgile.jarrige@unistra.fr">virgile.jarrige@unistra.fr</a>) - 
+                Projet initial de <a href="https://www.tiesdekok.com/" target="_blank">Ties de Kok</a> <br/> 
+                Modifié par Virgile Jarrige (<a href="mailto:virgile.jarrige@unistra.fr">virgile.jarrige@unistra.fr</a>) <br/> 
                 <a href="https://github.com/WillD31/Folder_Structure_Generator" target="_blank">Dépôt GitHub</a>
             </p>
         </div>
