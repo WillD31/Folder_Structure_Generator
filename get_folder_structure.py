@@ -85,9 +85,9 @@ def generate_zip_in_memory(project_name, full_structure = True, save = False, in
             template_to_add = create_template(project_name, template)
             if template_to_add:
                 if full_structure:
-                    zipFile.writestr('{}/empirical/1_code/templates/{}'.format(project_name, template_to_add[1]), template_to_add[0])
+                    zipFile.writestr('{}/03_Traitement_donnees/01_Code/01_Templates/{}'.format(project_name, template_to_add[1]), template_to_add[0])
                 else:
-                    zipFile.writestr('{}/1_code/templates/{}'.format(project_name, template_to_add[1]), template_to_add[0])
+                    zipFile.writestr('{}/01_Code/01_Templates/{}'.format(project_name, template_to_add[1]), template_to_add[0])
                     
     ### Add gitignore
     if include_git_ignore:
