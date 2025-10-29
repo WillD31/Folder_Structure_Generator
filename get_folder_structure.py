@@ -12,38 +12,30 @@ def gen_folder_structure(project_name, full_structure = True):
     if full_structure:
         folder_structure = {project_name : 
                                 { 
-                                'administrative' : None,
-                                'empirical' : {'0_data' : {'credentials' : None,
-                                                           'external' : None,
-                                                           'manual' : None
-                                                          }, 
-                                               '1_code' : {'templates' : None}, 
-                                               '2_pipeline' : None,
-                                               '3_output' : {'data' : None,
-                                                             'results' : None
-                                                            }
-                                              },
-                                'explorative' : None,
-                                'paper' : {'literature' : None, 
-                                           'main_text' : None
-                                          }
+                                '01_Administratif' : {'01_RH' : None, 
+                                                      '02_Budget' : None,
+                                                       '03_PGD' : None
+                                                      },
+                                '02_Donnees_brutes' :  None ,
+                                                      
+                                '03_Traitement_donnees' : {'01_Code' : {'01_Templates' : None}, },
+                                                          '02_Donnees_traitees' : {'data' : None,
+                                                                                   'results' : None
+                                                                                  },
+                                '04_Publications' : {'01_Bibliographie' : None, 
+                                                     '02_Texte_publication' : None
+                                                     }
                                }
                            }
     else:
         folder_structure = {project_name : 
-                                {'0_data' : 
-                                 {
-                                    'credentials' : None,
-                                   'external' : None,
-                                   'manual' : None
-                                  }, 
-                               '1_code' : {'templates' : None}, 
-                               '2_pipeline' : None,
-                               '3_output' : {
-                                   'data' : None,
-                                   'results' : None
-                                    }
-                               }
+                                {'01_Donnees_brutes' : None ,
+                                                      
+                                '02_Traitement_donnees' : {'01_Code' : {'01_Templates' : None}, },
+                                                          '02_Donnees_traitees' : {'data' : None,
+                                                                                   'results' : None
+                                                                                  },
+                                }
                            }
     return folder_structure
 
