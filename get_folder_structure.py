@@ -68,6 +68,14 @@ def generate_git_ignore(full_structure = True):
     
     return gitignore_text
 
+def generate_readme(full_structure = True):
+    filename = 'readme_fr.txt'
+        
+    with open(os.path.join(ASSETS_FOLDER, 'start_templates', filename), 'r') as f:
+        readme_text = f.read()
+    
+    return readme_text
+
 def generate_zip_in_memory(project_name, full_structure = True, save = False, include_git_ignore = True, 
                            templates = ['python_notebook', 'python_file', 'r_file', 'stata_file']):
     ## Generate folder
@@ -95,7 +103,11 @@ def generate_zip_in_memory(project_name, full_structure = True, save = False, in
             zipFile.writestr('{}/.gitignore'.format(project_name), gitignore)
         else:
             zipFile.writestr('.gitignore', gitignore)
-                    
+
+    ### Add readme
+    readme = generate_readme(full_structure=full_structure) 
+    zipFile.writestr('{}/.readme'.format(project_name), readme)
+
     zipFile.close()
     inMemoryOutputFile.seek(0)
     
