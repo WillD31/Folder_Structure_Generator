@@ -7,5 +7,5 @@
 **untitled*.R
 **/.ipynb_checkpoints
 
-!1_code/
+!01_Code/
 

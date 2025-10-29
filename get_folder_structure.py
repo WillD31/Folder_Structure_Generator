@@ -29,9 +29,8 @@ def gen_folder_structure(project_name, full_structure = True):
                            }
     else:
         folder_structure = {project_name : 
-                                {'01_Donnees_brutes' : None ,
-                                                      
-                                '02_Traitement_donnees' : {'01_Code' : {'01_Templates' : None}, },
+                                {'02_Donnees_brutes' : None ,           
+                                '03_Traitement_donnees' : {'01_Code' : {'01_Templates' : None}, },
                                                           '02_Donnees_traitees' : {'data' : None,
                                                                                    'results' : None
                                                                                   },
