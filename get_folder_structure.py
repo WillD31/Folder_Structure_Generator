@@ -8,43 +8,63 @@ ASSETS_FOLDER = os.path.join('assets', 'folder_structure')
 
 ## Logic
 
-def gen_folder_structure(project_name, full_structure = True):
-    if full_structure:
-        folder_structure = {project_name : 
-                                { 
-                                'administrative' : None,
-                                'empirical' : {'0_data' : {'credentials' : None,
-                                                           'external' : None,
-                                                           'manual' : None
-                                                          }, 
-                                               '1_code' : {'templates' : None}, 
-                                               '2_pipeline' : None,
-                                               '3_output' : {'data' : None,
-                                                             'results' : None
-                                                            }
-                                              },
-                                'explorative' : None,
-                                'paper' : {'literature' : None, 
-                                           'main_text' : None
-                                          }
-                               }
-                           }
-    else:
-        folder_structure = {project_name : 
-                                {'0_data' : 
-                                 {
-                                    'credentials' : None,
-                                   'external' : None,
-                                   'manual' : None
-                                  }, 
-                               '1_code' : {'templates' : None}, 
-                               '2_pipeline' : None,
-                               '3_output' : {
-                                   'data' : None,
-                                   'results' : None
-                                    }
-                               }
-                           }
+def gen_folder_structure(project_name, full_structure = True, language = 'fr'):
+    """
+    Generate folder structure based on language and full_structure options.
+    
+    Args:
+        project_name: Name of the project
+        full_structure: If True, include optional folders (01_Administratif/Administrative and 04_Publications/Publication)
+        language: 'fr' for French or 'en' for English folder names
+    """
+    
+    if language == 'fr':
+        # Structure française
+        base_structure = {
+            '02_Donnees_brutes': None,
+            '03_Traitement_donnees': {
+                '01_Code': {'01_Templates': None},
+                '02_Donnees_traitees': None
+            }
+        }
+        
+        if full_structure:
+            base_structure = {
+                '01_Administratif': {
+                    '01_RH': None,
+                    '02_Budget': None,
+                    '03_PGD': None
+                },
+                **base_structure,
+                '04_Publications': {
+                    '01_Bibliographie': None,
+                    '02_Texte_publication': None
+                }
+            }
+    else:  # English
+        base_structure = {
+            '02_Raw_Data': None,
+            '03_Data_processing': {
+                '01_Code': {'01_Templates': None},
+                '02_Processed_data': None
+            }
+        }
+        
+        if full_structure:
+            base_structure = {
+                '01_Administrative': {
+                    '01_HR': None,
+                    '02_Budget': None,
+                    '03_DMP': None
+                },
+                **base_structure,
+                '04_Publication': {
+                    '01_Bibliography': None,
+                    '02_Publication_text': None
+                }
+            }
+    
+    folder_structure = {project_name: base_structure}
     return folder_structure
 
 def make_dirs_from_dict(d, zipFile, project_dir=''):
@@ -66,21 +86,47 @@ def create_template(project_name, template_type):
     else:
         return None
 
-def generate_git_ignore(full_structure = True):
-    if full_structure:
-        filename = 'start_gitignore.txt'
-    else:
-        filename = 'start_gitignore_slim.txt'
-        
-    with open(os.path.join(ASSETS_FOLDER, 'start_templates', filename), 'r') as f:
-        gitignore_text = f.read()
-    
+def generate_git_ignore():
+    """Generate a .gitignore file for the new folder structure"""
+    gitignore_text = '''# Ignore all files
+*
+!.gitignore
+!README.txt
+
+# Keep code and templates
+!03_Traitement_donnees/
+03_Traitement_donnees/*
+!03_Traitement_donnees/01_Code/
+03_Traitement_donnees/01_Code/*
+!03_Traitement_donnees/01_Code/01_Templates/
+!03_Traitement_donnees/01_Code/01_Templates/*
+
+!03_Data_processing/
+03_Data_processing/*
+!03_Data_processing/01_Code/
+03_Data_processing/01_Code/*
+!03_Data_processing/01_Code/01_Templates/
+!03_Data_processing/01_Code/01_Templates/*
+'''
     return gitignore_text
 
+def generate_readme(language='fr'):
+    """Generate a README file based on language"""
+    filename = 'readme_fr.txt' if language == 'fr' else 'readme_en.txt'
+    readme_path = os.path.join(ASSETS_FOLDER, 'readme_templates', filename)
+    
+    if os.path.exists(readme_path):
+        with open(readme_path, 'r', encoding='utf-8') as f:
+            readme_text = f.read()
+        return readme_text
+    else:
+        # Fallback si le fichier n'existe pas
+        return "README.txt - Please add your project documentation here."
+
 def generate_zip_in_memory(project_name, full_structure = True, save = False, include_git_ignore = True, 
-                           templates = ['python_notebook', 'python_file', 'r_file', 'stata_file']):
+                           templates = ['python_notebook', 'python_file', 'r_file', 'stata_file'], language='fr'):
     ## Generate folder
-    folder_structure = gen_folder_structure(project_name, full_structure = full_structure)
+    folder_structure = gen_folder_structure(project_name, full_structure = full_structure, language=language)
     
     ## Create ZIP file with folders
     inMemoryOutputFile = BytesIO()
@@ -92,18 +138,18 @@ def generate_zip_in_memory(project_name, full_structure = True, save = False, in
         for template in templates:
             template_to_add = create_template(project_name, template)
             if template_to_add:
-                if full_structure:
-                    zipFile.writestr('{}/empirical/1_code/templates/{}'.format(project_name, template_to_add[1]), template_to_add[0])
-                else:
-                    zipFile.writestr('{}/1_code/templates/{}'.format(project_name, template_to_add[1]), template_to_add[0])
+                # Templates go in 03_Traitement_donnees/01_Code/01_Templates or 03_Data_processing/01_Code/01_Templates
+                templates_path = '03_Traitement_donnees/01_Code/01_Templates' if language == 'fr' else '03_Data_processing/01_Code/01_Templates'
+                zipFile.writestr('{}/{}/{}'.format(project_name, templates_path, template_to_add[1]), template_to_add[0])
                     
     ### Add gitignore
     if include_git_ignore:
-        gitignore = generate_git_ignore(full_structure=full_structure)
-        if full_structure:
-            zipFile.writestr('{}/.gitignore'.format(project_name), gitignore)
-        else:
-            zipFile.writestr('.gitignore', gitignore)
+        gitignore = generate_git_ignore()
+        zipFile.writestr('{}/.gitignore'.format(project_name), gitignore)
+    
+    ### Add README
+    readme = generate_readme(language=language)
+    zipFile.writestr('{}/README.txt'.format(project_name), readme)
                     
     zipFile.close()
     inMemoryOutputFile.seek(0)
@@ -124,18 +170,21 @@ class GetFolderStructure(object):
         project_name = req.get_param('project_name', required = True)
         full_structure = req.get_param_as_bool('full_structure', required = True)
         include_git_ignore = req.get_param_as_bool('include_git_ignore', required = True)  
-        template_files_to_include = req.get_param_as_list('templates', required =  False)  
+        template_files_to_include = req.get_param_as_list('templates', required =  False)
+        language = req.get_param('language', default='fr')  # 'fr' or 'en'
 
         #project_name = 'demo_project'
         #full_structure = True
         #include_git_ignore = True
         #template_files_to_include = ['python_notebook', 'python_file', 'r_file', 'stata_file']
+        #language = 'fr'
 
         resp.content_type = 'file/zip'
         resp.stream = generate_zip_in_memory(project_name, 
                                             full_structure = full_structure, 
                                             include_git_ignore = include_git_ignore, 
-                                            templates = template_files_to_include)
+                                            templates = template_files_to_include,
+                                            language = language)
 
-        resp.downloadable_as = 'folder_structure_{}.zip'.format(time.strftime("%d-%m-%Y %H:%M:%S"))
+        resp.downloadable_as = '{}_{}.zip'.format(project_name, time.strftime("%d-%m-%Y_%H-%M-%S"))
         resp.status  = falcon.HTTP_200

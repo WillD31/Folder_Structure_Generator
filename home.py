@@ -267,6 +267,8 @@ class HomeResource(object):
     </div>
     
     <script>
+        let currentLanguage = 'fr';  // Track current language
+        
         const translations = {
             fr: {
                 title: '📁 Folder Structure Generator',
@@ -295,10 +297,18 @@ class HomeResource(object):
         };
         
         function switchLanguage(lang) {
+            currentLanguage = lang;  // Update current language
+            
             document.querySelectorAll('.language-switch button').forEach(btn => {
                 btn.classList.remove('active');
             });
-            event.target.classList.add('active');
+            
+            // Find and activate the correct button
+            document.querySelectorAll('.language-switch button').forEach(btn => {
+                if (btn.textContent.includes(lang === 'fr' ? 'Français' : 'English')) {
+                    btn.classList.add('active');
+                }
+            });
             
             const t = translations[lang];
             
@@ -334,7 +344,8 @@ class HomeResource(object):
                 templates.push(cb.value);
             });
             
-            let url = `/get_folder_structure?project_name=${encodeURIComponent(projectName)}&full_structure=${fullStructure}&include_git_ignore=${gitignore}`;
+            // Use current interface language for folder structure
+            let url = `/get_folder_structure?project_name=${encodeURIComponent(projectName)}&full_structure=${fullStructure}&include_git_ignore=${gitignore}&language=${currentLanguage}`;
             
             if (templates.length > 0) {
                 url += `&templates=${templates.join(',')}`;

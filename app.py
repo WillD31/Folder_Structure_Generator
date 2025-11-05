@@ -8,6 +8,9 @@ from get_folder_structure import GetFolderStructure
 cors = CORS(allow_all_origins=True)
 api = falcon.App(middleware=[cors.middleware])
 
+# Enable comma-separated query string parsing for lists
+api.req_options.auto_parse_qs_csv = True
+
 Home = HomeResource()
 api.add_route('/', Home)
 
