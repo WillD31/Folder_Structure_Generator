@@ -213,7 +213,7 @@ class HomeResource(object):
             <div class="form-group">
                 <label>
                     <input type="checkbox" id="fullStructure" name="full_structure" checked>
-                    <span id="fullStructureText">Inclure tous les dossiers (administrative, explorative, paper) ?</span>
+                    <span id="fullStructureText">Inclure tous les dossiers (01_Administratif, 04_Publication) ?</span>
                 </label>
             </div>
             
@@ -252,9 +252,7 @@ class HomeResource(object):
         <div class="tips">
             <h3>💡 Quelques conseils :</h3>
             <ul>
-                <li>Utilisez des underscores (_) ou camelCase dans le nom du projet</li>
-                <li>Pour les templates Stata/R, pensez à modifier manuellement la variable PROJECT_DIR</li>
-                <li>"Inclure tous les dossiers" ajoute les dossiers administrative, explorative et paper</li>
+                <li>Utilisez des underscores (_) ou notationChameau (mots collés avec majuscules) dans le nom du projet</li>
             </ul>
         </div>
         
@@ -275,28 +273,24 @@ class HomeResource(object):
                 subtitle: 'Générateur de structure de répertoires pour projets de recherche',
                 projectName: 'Nom du projet :',
                 projectPlaceholder: 'mon_projet_recherche',
-                fullStructure: 'Inclure tous les dossiers (administrative, explorative, paper) ?',
+                fullStructure: 'Inclure tous les dossiers (01_Administratif, 04_Publication) ?',
                 gitignore: 'Inclure un fichier .gitignore ?',
                 templates: 'Modèles de fichiers à inclure :',
                 download: '⬇️ Télécharger la structure',
                 tips: '💡 Quelques conseils :',
-                tip1: 'Utilisez des underscores (_) ou camelCase dans le nom du projet',
-                tip2: 'Pour les templates Stata/R, pensez à modifier manuellement la variable PROJECT_DIR',
-                tip3: '"Inclure tous les dossiers" ajoute les dossiers administrative, explorative et paper'
+                tip1: 'Utilisez des underscores (_) ou notationChameau (mots collés avec majuscules) dans le nom du projet'
             },
             en: {
                 title: '📁 Folder Structure Generator',
                 subtitle: 'Research project folder structure generator',
                 projectName: 'Project name:',
                 projectPlaceholder: 'my_research_project',
-                fullStructure: 'Include all folders (administrative, explorative, paper)?',
+                fullStructure: 'Include all folders (01_Administrative, 04_Publication)?',
                 gitignore: 'Include a .gitignore file?',
                 templates: 'File templates to include:',
                 download: '⬇️ Download Structure',
                 tips: '💡 Some tips:',
-                tip1: 'Use underscores (_) or camelCase in the project name',
-                tip2: 'For Stata/R templates, remember to manually change the PROJECT_DIR variable',
-                tip3: '"Include all folders" adds administrative, explorative, and paper folders'
+                tip1: 'Use underscores (_) or camelCase in the project name'
             }
         };
         
@@ -326,8 +320,6 @@ class HomeResource(object):
             
             const tipsList = document.querySelectorAll('.tips li');
             tipsList[0].textContent = t.tip1;
-            tipsList[1].textContent = t.tip2;
-            tipsList[2].textContent = t.tip3;
         }
         
         document.getElementById('folderForm').addEventListener('submit', function(e) {
