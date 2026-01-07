@@ -213,7 +213,7 @@ class HomeResource(object):
             <div class="form-group">
                 <label>
                     <input type="checkbox" id="fullStructure" name="full_structure" checked>
-                    <span id="fullStructureText">Inclure tous les dossiers (01_Administratif_, 04_Publication) ?</span>
+                    <span id="fullStructureText">Inclure tous les dossiers (01_Administratif, 04_Publication) ?</span>
                 </label>
             </div>
             
@@ -252,8 +252,7 @@ class HomeResource(object):
         <div class="tips">
             <h3>💡 Quelques conseils :</h3>
             <ul>
-                <li>Utilisez des underscores (_) ou camelCase dans le nom du projet</li>
-                <li>Pour les templates Stata/R, pensez à modifier manuellement la variable PROJECT_DIR</li>
+                <li>Utilisez des underscores (_) ou notationChameau (mots collés avec majuscules) dans le nom du projet</li>
             </ul>
         </div>
         
@@ -268,40 +267,48 @@ class HomeResource(object):
     </div>
     
     <script>
+        let currentLanguage = 'fr';  // Track current language
+        
         const translations = {
             fr: {
                 title: '📁 Folder Structure Generator',
                 subtitle: 'Générateur de structure de répertoires pour projets de recherche',
                 projectName: 'Nom du projet :',
                 projectPlaceholder: 'mon_projet_recherche',
-                fullStructure: 'Inclure tous les dossiers (01_Administratif_, 04_Publication) ?',
+                fullStructure: 'Inclure tous les dossiers (01_Administratif, 04_Publication) ?',
                 gitignore: 'Inclure un fichier .gitignore ?',
                 templates: 'Modèles de fichiers à inclure :',
                 download: '⬇️ Télécharger la structure',
                 tips: '💡 Quelques conseils :',
-                tip1: 'Utilisez des underscores (_) ou camelCase dans le nom du projet',
-                tip2: 'Pour les templates Stata/R, pensez à modifier manuellement la variable PROJECT_DIR',
+                tip1: 'Utilisez des underscores (_) ou notationChameau (mots collés avec majuscules) dans le nom du projet'
             },
             en: {
                 title: '📁 Folder Structure Generator',
                 subtitle: 'Research project folder structure generator',
                 projectName: 'Project name:',
                 projectPlaceholder: 'my_research_project',
-                fullStructure: 'Include all folders (01_Administrative_, 04_Publication)?',
+                fullStructure: 'Include all folders (01_Administrative, 04_Publication)?',
                 gitignore: 'Include a .gitignore file?',
                 templates: 'File templates to include:',
                 download: '⬇️ Download Structure',
                 tips: '💡 Some tips:',
-                tip1: 'Use underscores (_) or camelCase in the project name',
-                tip2: 'For Stata/R templates, remember to manually change the PROJECT_DIR variable',
+                tip1: 'Use underscores (_) or camelCase in the project name'
             }
         };
         
         function switchLanguage(lang) {
+            currentLanguage = lang;  // Update current language
+            
             document.querySelectorAll('.language-switch button').forEach(btn => {
                 btn.classList.remove('active');
             });
-            event.target.classList.add('active');
+            
+            // Find and activate the correct button
+            document.querySelectorAll('.language-switch button').forEach(btn => {
+                if (btn.textContent.includes(lang === 'fr' ? 'Français' : 'English')) {
+                    btn.classList.add('active');
+                }
+            });
             
             const t = translations[lang];
             
@@ -323,7 +330,6 @@ class HomeResource(object):
             
             const tipsList = document.querySelectorAll('.tips li');
             tipsList[0].textContent = t.tip1;
-            tipsList[1].textContent = t.tip2;
         }
         
         document.getElementById('folderForm').addEventListener('submit', function(e) {
@@ -338,7 +344,8 @@ class HomeResource(object):
                 templates.push(cb.value);
             });
             
-            let url = `/get_folder_structure?project_name=${encodeURIComponent(projectName)}&full_structure=${fullStructure}&include_git_ignore=${gitignore}`;
+            // Use current interface language for folder structure
+            let url = `/get_folder_structure?project_name=${encodeURIComponent(projectName)}&full_structure=${fullStructure}&include_git_ignore=${gitignore}&language=${currentLanguage}`;
             
             if (templates.length > 0) {
                 url += `&templates=${templates.join(',')}`;
