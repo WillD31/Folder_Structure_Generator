@@ -71,38 +71,33 @@ curl "http://localhost/get_folder_structure?project_name=mon_projet&full_structu
 
 ```
 mon_projet/
-├── administrative/
-├── empirical/
-│   ├── 0_data/
-│   │   ├── credentials/
-│   │   ├── external/
-│   │   └── manual/
-│   ├── 1_code/
-│   │   └── templates/
-│   ├── 2_pipeline/
-│   └── 3_output/
+├── 01_Administratif/
+    ├── 01_RH/
+    ├── 02_Budget/
+    ├── 03_PGD/
+├── 02_Donnees_brutes/
+├── 03_Traitement_donnees/
+│   ├── 01_Code/
+│   │   └── 01_Templates/
+│   └── 02_Donnees_traitees/
 │       ├── data/
 │       └── results/
-├── explorative/
-└── paper/
-    ├── literature/
-    └── main_text/
+└── 04_Publication/
+    ├── 01_Bibliographie/
+    └── 02_Texte_publication/
 ```
 
 ### Structure simplifiée (`full_structure=0`)
 
 ```
 mon_projet/
-├── 0_data/
-│   ├── credentials/
-│   ├── external/
-│   └── manual/
-├── 1_code/
-│   └── templates/
-├── 2_pipeline/
-└── 3_output/
-    ├── data/
-    └── results/
+├── 02_Donnees_brutes/
+├── 03_Traitement_donnees/
+│   ├── 01_Code/
+│   │   └── 01_Templates/
+│   └── 02_Donnees_traitees/
+│       ├── data/
+│       └── results/
 ```
 
 ## Technologies
