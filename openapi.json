@@ -111,6 +111,20 @@
           }
         }
       }
+    },
+    "/feedback/": {
+      "get": {
+        "summary": "Usage Statistics",
+        "description": "Returns a dashboard with usage statistics (connections and generations).",
+        "responses": {
+          "200": {
+            "description": "Statistics dashboard HTML page",
+            "content": {
+              "text/html": {}
+            }
+          }
+        }
+      }
     }
   }
 }

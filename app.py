@@ -6,6 +6,7 @@ from falcon_swagger_ui import register_swaggerui_app
 from home import HomeResource
 from alive import AliveResource
 from get_folder_structure import GetFolderStructure
+from feedback import FeedbackResource
 
 cors = CORS(allow_all_origins=True)
 api = falcon.App(middleware=[cors.middleware])
@@ -40,3 +41,5 @@ api.add_route('/alive', Alive)
 
 FolderStructure = GetFolderStructure()
 api.add_route('/get_folder_structure', FolderStructure)
+Feedback = FeedbackResource()
+api.add_route('/feedback/', Feedback)
