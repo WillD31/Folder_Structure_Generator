@@ -25,7 +25,8 @@ class FeedbackResource(object):
                 'language': 'Langue',
                 'back': '← Retour au générateur',
                 'conn_label': 'Connexion',
-                'gen_label': 'Génération'
+                'gen_label': 'Génération',
+                'privacy': 'Aucune donnée personnelle n’est conservée sur ce serveur.'
             },
             'en': {
                 'title': '📈 Usage Statistics',
@@ -39,7 +40,8 @@ class FeedbackResource(object):
                 'language': 'Language',
                 'back': '← Back to generator',
                 'conn_label': 'Connection',
-                'gen_label': 'Generation'
+                'gen_label': 'Generation',
+                'privacy': 'No personal data is stored on this server.'
             }
         }
         
@@ -128,6 +130,7 @@ class FeedbackResource(object):
         </table>
 
         <a href="/" class="back-link">{t['back']}</a>
+        <p style="text-align: center; margin-top: 20px; font-size: 12px; color: #aaa; font-style: italic;">{t['privacy']}</p>
     </div>
 </body>
 </html>'''

@@ -263,6 +263,9 @@ class HomeResource(object):
             <p id="footerText" style="margin-top: 15px; font-size: 13px; color: #888; line-height: 1.5;">
                 <!-- Content injected by JS -->
             </p>
+            <p id="privacyText" style="margin-top: 10px; font-size: 12px; color: #aaa; font-style: italic;">
+                <!-- Content injected by JS -->
+            </p>
         </div>
     </div>
     
@@ -283,7 +286,8 @@ class HomeResource(object):
                 tip1: 'Utilisez des underscores (_) ou notationChameau (mots collés avec majuscules) dans le nom du projet',
                 footer: 'Proposé par le groupe de travail "outils applicatifs communs" <br />du réseau des <a href="https://recherche.data.gouv.fr/fr/ateliers-de-la-donnee" target="_blank">ateliers de la donnée</a> <br />avec le soutien de <a href="https://recherche.data.gouv.fr" target="_blank">Recherche Data Gouv</a>.<br/><br/>Projet initial de <a href="https://www.tiesdekok.com/" target="_blank">Ties de Kok</a> <br/> Modifié par Virgile Jarrige (<a href="mailto:virgile.jarrige@unistra.fr">virgile.jarrige@unistra.fr</a>) <br />et William Demet (<a href="mailto:william.demet@ut-capitole.fr">william.demet@ut-capitole.fr</a>) <br/> <br /><a href="https://github.com/WillD31/Folder_Structure_Generator" target="_blank">Dépôt GitHub</a><br/><br/>Hébergé par le <a href="https://eu-eosc-vm.unistra.fr/" target="_blank">noeud EU EOSC - Virtual Machines</a>',
                 docs: 'Documentation API (Swagger)',
-                stats: 'Statistiques'
+                stats: 'Statistiques',
+                privacy: 'Aucune donnée personnelle n’est conservée sur ce serveur.'
             },
             en: {
                 title: '📁 Folder Structure Generator',
@@ -298,7 +302,8 @@ class HomeResource(object):
                 tip1: 'Use underscores (_) or camelCase in the project name',
                 footer: 'Proposed by the "common application tools" working group <br />of the <a href="https://recherche.data.gouv.fr/en/data-management-cluster" target="_blank">data managment clusters network</a> <br /> with the support of <a href="https://recherche.data.gouv.fr" target="_blank">Recherche Data Gouv</a>.<br/><br/>Original project by <a href="https://www.tiesdekok.com/" target="_blank">Ties de Kok</a> <br/> Modified by Virgile Jarrige (<a href="mailto:virgile.jarrige@unistra.fr">virgile.jarrige@unistra.fr</a>) <br />and William Demet (<a href="mailto:william.demet@ut-capitole.fr">william.demet@ut-capitole.fr</a>) <br/> <br /><a href="https://github.com/WillD31/Folder_Structure_Generator" target="_blank">GitHub Repository</a><br/><br/>Hosted by the <a href="https://eu-eosc-vm.unistra.fr/" target="_blank">EU EOSC - Virtual Machines node</a>',
                 docs: 'API Documentation (Swagger)',
-                stats: 'Statistics'
+                stats: 'Statistics',
+                privacy: 'No personal data is stored on this server.'
             }
         };
         
@@ -342,6 +347,7 @@ class HomeResource(object):
             document.getElementById('docsLink').textContent = t.docs;
             document.getElementById('statsLink').textContent = t.stats;
             document.getElementById('statsLink').href = `/feedback/?lang=${lang}`;
+            document.getElementById('privacyText').textContent = t.privacy;
         }
 
         // Detect browser language and initialize
