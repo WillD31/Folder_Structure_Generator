@@ -257,7 +257,7 @@ class HomeResource(object):
         </div>
         
         <div class="footer">
-            <p>API : <a href="/alive">/alive</a> | <a id="docsLink" href="/docs">Documentation API (Swagger)</a></p>
+            <p>API : <a href="/alive">/alive</a> | <a id="docsLink" href="/docs#/default/">Documentation API (Swagger)</a></p>
             <p id="footerText" style="margin-top: 15px; font-size: 13px; color: #888; line-height: 1.5;">
                 <!-- Content injected by JS -->
             </p>
