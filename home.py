@@ -258,10 +258,8 @@ class HomeResource(object):
         
         <div class="footer">
             <p>API : <a href="/alive">/alive</a> | <a href="/get_folder_structure?project_name=demo&full_structure=1&include_git_ignore=1&templates=python_file">Exemple API</a></p>
-            <p style="margin-top: 15px; font-size: 13px; color: #888;">
-                Projet initial de <a href="https://www.tiesdekok.com/" target="_blank">Ties de Kok</a> <br/> 
-                Modifié par Virgile Jarrige (<a href="mailto:virgile.jarrige@unistra.fr">virgile.jarrige@unistra.fr</a>) <br/> 
-                <a href="https://github.com/WillD31/Folder_Structure_Generator" target="_blank">Dépôt GitHub</a>
+            <p id="footerText" style="margin-top: 15px; font-size: 13px; color: #888; line-height: 1.5;">
+                <!-- Content injected by JS -->
             </p>
         </div>
     </div>
@@ -280,7 +278,8 @@ class HomeResource(object):
                 templates: 'Modèles de fichiers à inclure :',
                 download: '⬇️ Télécharger la structure',
                 tips: '💡 Quelques conseils :',
-                tip1: 'Utilisez des underscores (_) ou notationChameau (mots collés avec majuscules) dans le nom du projet'
+                tip1: 'Utilisez des underscores (_) ou notationChameau (mots collés avec majuscules) dans le nom du projet',
+                footer: 'Proposé par le groupe de travail "outils applicatifs communs" <br />du réseau des <a href="https://recherche.data.gouv.fr/fr/ateliers-de-la-donnee" target="_blank">ateliers de la donnée</a> <br />avec le soutien de <a href="https://recherche.data.gouv.fr" target="_blank">Recherche Data Gouv</a>.<br/><br/>Projet initial de <a href="https://www.tiesdekok.com/" target="_blank">Ties de Kok</a> <br/> Modifié par Virgile Jarrige (<a href="mailto:virgile.jarrige@unistra.fr">virgile.jarrige@unistra.fr</a>) <br />et William Demet (<a href="mailto:william.demet@ut-capitole.fr">william.demet@ut-capitole.fr</a>) <br/> <br /><a href="https://github.com/WillD31/Folder_Structure_Generator" target="_blank">Dépôt GitHub</a><br/><br/>Hébergé par le <a href="https://eu-eosc-vm.unistra.fr/" target="_blank">noeud EU EOSC - Virtual Machines</a>'
             },
             en: {
                 title: '📁 Folder Structure Generator',
@@ -292,7 +291,8 @@ class HomeResource(object):
                 templates: 'File templates to include:',
                 download: '⬇️ Download Structure',
                 tips: '💡 Some tips:',
-                tip1: 'Use underscores (_) or camelCase in the project name'
+                tip1: 'Use underscores (_) or camelCase in the project name',
+                footer: 'Proposed by the "common application tools" working group <br />of the <a href="https://recherche.data.gouv.fr/en/data-management-cluster" target="_blank">data managment clusters network</a> <br /> with the support of <a href="https://recherche.data.gouv.fr" target="_blank">Recherche Data Gouv</a>.<br/><br/>Original project by <a href="https://www.tiesdekok.com/" target="_blank">Ties de Kok</a> <br/> Modified by Virgile Jarrige (<a href="mailto:virgile.jarrige@unistra.fr">virgile.jarrige@unistra.fr</a>) <br />and William Demet (<a href="mailto:william.demet@ut-capitole.fr">william.demet@ut-capitole.fr</a>) <br/> <br /><a href="https://github.com/WillD31/Folder_Structure_Generator" target="_blank">GitHub Repository</a><br/><br/>Hosted by the <a href="https://eu-eosc-vm.unistra.fr/" target="_blank">EU EOSC - Virtual Machines node</a>'
             }
         };
         
@@ -330,7 +330,13 @@ class HomeResource(object):
             
             const tipsList = document.querySelectorAll('.tips li');
             tipsList[0].textContent = t.tip1;
+
+            // Update footer
+            document.getElementById('footerText').innerHTML = t.footer;
         }
+
+        // Initialize footer with default language
+        switchLanguage('fr');
         
         document.getElementById('folderForm').addEventListener('submit', function(e) {
             e.preventDefault();
