@@ -1,0 +1,116 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Folder Structure Generator API",
+    "description": "API for generating research project folder structures as ZIP files.",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "/",
+      "description": "Local server"
+    }
+  ],
+  "paths": {
+    "/": {
+      "get": {
+        "summary": "Web Interface",
+        "description": "Returns the main web interface for the Folder Structure Generator.",
+        "responses": {
+          "200": {
+            "description": "HTML page",
+            "content": {
+              "text/html": {}
+            }
+          }
+        }
+      }
+    },
+    "/alive": {
+      "get": {
+        "summary": "Health Check",
+        "description": "Returns a simple status page to check if the API is online.",
+        "responses": {
+          "200": {
+            "description": "Status page",
+            "content": {
+              "text/html": {}
+            }
+          }
+        }
+      }
+    },
+    "/get_folder_structure": {
+      "get": {
+        "summary": "Generate Folder Structure",
+        "description": "Generates a project folder structure and returns it as a ZIP file.",
+        "parameters": [
+          {
+            "name": "project_name",
+            "in": "query",
+            "description": "Name of the project",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "full_structure",
+            "in": "query",
+            "description": "Include optional administrative and publication folders",
+            "required": true,
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "include_git_ignore",
+            "in": "query",
+            "description": "Include a .gitignore file",
+            "required": true,
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "language",
+            "in": "query",
+            "description": "Language for folder names ('fr' or 'en')",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": ["fr", "en"],
+              "default": "fr"
+            }
+          },
+          {
+            "name": "templates",
+            "in": "query",
+            "description": "Comma-separated list of file templates to include",
+            "required": false,
+            "style": "form",
+            "explode": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": ["python_notebook", "python_file", "r_file", "stata_file"]
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ZIP file containing the folder structure",
+            "content": {
+              "application/zip": {}
+            }
+          },
+          "400": {
+            "description": "Missing required parameters"
+          }
+        }
+      }
+    }
+  }
+}
