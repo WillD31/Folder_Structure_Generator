@@ -335,8 +335,10 @@ class HomeResource(object):
             document.getElementById('footerText').innerHTML = t.footer;
         }
 
-        // Initialize footer with default language
-        switchLanguage('fr');
+        // Detect browser language and initialize
+        const userLang = navigator.language || navigator.userLanguage; 
+        const initialLang = userLang.startsWith('fr') ? 'fr' : 'en';
+        switchLanguage(initialLang);
         
         document.getElementById('folderForm').addEventListener('submit', function(e) {
             e.preventDefault();
