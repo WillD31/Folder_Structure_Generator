@@ -341,6 +341,7 @@ class HomeResource(object):
             document.getElementById('footerText').innerHTML = t.footer;
             document.getElementById('docsLink').textContent = t.docs;
             document.getElementById('statsLink').textContent = t.stats;
+            document.getElementById('statsLink').href = `/feedback/?lang=${lang}`;
         }
 
         // Detect browser language and initialize
