@@ -58,6 +58,19 @@ Accédez à `http://localhost` (ou `http://localhost:8000` en mode dev)
 - `GET /` - Interface web
 - `GET /alive` - Health check
 - `GET /get_folder_structure` - Génération de structure
+- `GET /feedback/` - Statistiques d'utilisation
+
+## Statistiques
+
+L'application inclut un tableau de bord des statistiques d'utilisation accessible via `/feedback/`.
+
+### Principes de comptage
+
+- **Connexions au site** : Comptabilisées comme **visiteurs uniques par jour**. Pour respecter la vie privée, un hash anonyme de l'adresse IP est utilisé pour identifier les sessions uniques quotidiennes sur la page d'accueil sans stocker de données personnelles.
+- **Structures générées** : Chaque téléchargement de structure est comptabilisé individuellement.
+- **Langues** : Répartition des types de structures générées par langue choisie (FR/EN).
+
+Les données sont stockées localement dans une base de données SQLite (`stats.db`).
 
 #### Exemple d'utilisation de l'API
 

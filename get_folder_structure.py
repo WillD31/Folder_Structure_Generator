@@ -166,9 +166,11 @@ def generate_zip_in_memory(project_name, full_structure = True, save = False, in
 class GetFolderStructure(object):
     
     def on_get(self, req, resp):
-        from stats_db import log_event
+        from stats_db import log_event, get_identifier
         language = req.get_param('language', default='fr')
-        log_event('generation', language)
+        identifier = get_identifier(req)
+        
+        log_event('generation', language, identifier=identifier)
 
         project_name = req.get_param('project_name', required = True)
         full_structure = req.get_param_as_bool('full_structure', required = True)

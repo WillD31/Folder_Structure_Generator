@@ -28,3 +28,4 @@ demo*.zip
 # Local development
 home_no-preview.py
 todo.md
+stats.db
