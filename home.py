@@ -3,8 +3,9 @@ import falcon
 class HomeResource(object):
     
     def on_get(self, req, resp):
-        from stats_db import log_event
-        log_event('connection')
+        from stats_db import log_event, get_identifier
+        identifier = get_identifier(req)
+        log_event('connection', identifier=identifier)
         resp.status = falcon.HTTP_200
         resp.content_type = 'text/html'
         resp.text = '''

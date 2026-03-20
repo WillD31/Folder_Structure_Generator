@@ -15,7 +15,7 @@ class FeedbackResource(object):
         translations = {
             'fr': {
                 'title': '📈 Statistiques d’utilisation',
-                'conn': 'Connexions au site',
+                'conn': 'Connexions au site (visiteurs uniques par jour)',
                 'gen': 'Structures générées',
                 'monthly': 'Détail par mois',
                 'month': 'Mois',
@@ -24,13 +24,13 @@ class FeedbackResource(object):
                 'by_lang': 'Générations par langue',
                 'language': 'Langue',
                 'back': '← Retour au générateur',
-                'conn_label': 'Connexion',
+                'conn_label': 'Connexion (unique / jour)',
                 'gen_label': 'Génération',
                 'privacy': 'Aucune donnée personnelle n’est conservée sur ce serveur.'
             },
             'en': {
                 'title': '📈 Usage Statistics',
-                'conn': 'Site connections',
+                'conn': 'Site connections (unique visitors per day)',
                 'gen': 'Folders generated',
                 'monthly': 'Monthly detail',
                 'month': 'Month',
@@ -39,7 +39,7 @@ class FeedbackResource(object):
                 'by_lang': 'Generations by language',
                 'language': 'Language',
                 'back': '← Back to generator',
-                'conn_label': 'Connection',
+                'conn_label': 'Connection (unique / day)',
                 'gen_label': 'Generation',
                 'privacy': 'No personal data is stored on this server.'
             }
