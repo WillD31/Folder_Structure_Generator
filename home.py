@@ -27,15 +27,48 @@ class HomeResource(object):
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         
         .container {
-            max-width: 700px;
+            width: 95%;
+            max-width: 1400px;
             margin: 0 auto;
             background-color: white;
             padding: 40px;
             border-radius: 12px;
             box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            display: flex;
+            gap: 40px;
+            transition: all 0.3s ease;
+        }
+
+        .main-content {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .preview-panel {
+            flex: 1;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            border: 1px solid #e0e0e0;
+            padding: 25px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        @media (max-width: 1024px) {
+            .container {
+                flex-direction: column;
+                width: 95%;
+                padding: 25px;
+            }
+            .preview-panel {
+                display: none;
+            }
         }
         
         h1 {
@@ -150,10 +183,36 @@ class HomeResource(object):
             box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
         }
         
-        .download-btn:active {
-            transform: translateY(0);
+        /* Tree Preview Styles */
+        .preview-title {
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 20px;
+            font-size: 1.2em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
-        
+
+        .tree {
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 14px;
+            color: #444;
+            line-height: 1.5;
+            overflow-y: auto;
+        }
+
+        .tree-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin: 2px 0;
+        }
+
+        .tree-folder { color: #f39c12; font-weight: bold; }
+        .tree-file { color: #555; }
+        .tree-indent { margin-left: 20px; border-left: 1px dashed #ccc; padding-left: 10px; }
+
         .tips {
             background-color: #fff3cd;
             border-left: 4px solid #ffc107;
@@ -198,80 +257,91 @@ class HomeResource(object):
 </head>
 <body>
     <div class="container">
-        <h1>📁 Folder Structure Generator</h1>
-        <p class="subtitle">Générateur de structure de répertoires pour projets de recherche</p>
-        
-        <div class="language-switch">
-            <button class="active" onclick="switchLanguage('fr')">🇫🇷 Français</button>
-            <button onclick="switchLanguage('en')">🇬🇧 English</button>
-        </div>
-        
-        <form id="folderForm">
-            <div class="form-group">
-                <label for="projectName">Nom du projet :</label>
-                <input type="text" id="projectName" name="project_name" 
-                       placeholder="mon_projet_recherche" required>
+        <div class="main-content">
+            <h1 id="mainTitle">📁 Folder Structure Generator</h1>
+            <p class="subtitle" id="mainSubtitle">Générateur de structure de répertoires pour projets de recherche</p>
+            
+            <div class="language-switch">
+                <button class="active" onclick="switchLanguage('fr')">🇫🇷 Français</button>
+                <button onclick="switchLanguage('en')">🇬🇧 English</button>
             </div>
             
-            <div class="form-group">
-                <label>
-                    <input type="checkbox" id="fullStructure" name="full_structure" checked>
-                    <span id="fullStructureText">Inclure tous les dossiers (01_Administratif, 04_Publication) ?</span>
-                </label>
-            </div>
-            
-            <div class="form-group">
-                <label>
-                    <input type="checkbox" id="gitignore" name="include_git_ignore" checked>
-                    <span id="gitignoreText">Inclure un fichier .gitignore ?</span>
-                </label>
-            </div>
-            
-            <div class="form-group">
-                <label id="templatesLabel">Modèles de fichiers à inclure :</label>
-                <div class="checkbox-group">
-                    <div class="checkbox-item">
-                        <input type="checkbox" id="python_file" value="python_file" checked>
-                        <label for="python_file">🐍 Python (.py)</label>
-                    </div>
-                    <div class="checkbox-item">
-                        <input type="checkbox" id="python_notebook" value="python_notebook" checked>
-                        <label for="python_notebook">📓 Jupyter Notebook (.ipynb)</label>
-                    </div>
-                    <div class="checkbox-item">
-                        <input type="checkbox" id="r_file" value="r_file">
-                        <label for="r_file">📊 R Script (.R)</label>
-                    </div>
-                    <div class="checkbox-item">
-                        <input type="checkbox" id="stata_file" value="stata_file">
-                        <label for="stata_file">📈 Stata (.do)</label>
+            <form id="folderForm">
+                <div class="form-group">
+                    <label for="projectName" id="labelProjectName">Nom du projet :</label>
+                    <input type="text" id="projectName" name="project_name" 
+                           placeholder="mon_projet_recherche" required maxlength="100">
+                </div>
+                
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox" id="fullStructure" name="full_structure" checked>
+                        <span id="fullStructureText">Inclure tous les dossiers (01_Administratif, 04_Publication) ?</span>
+                    </label>
+                </div>
+                
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox" id="gitignore" name="include_git_ignore" checked>
+                        <span id="gitignoreText">Inclure un fichier .gitignore ?</span>
+                    </label>
+                </div>
+                
+                <div class="form-group">
+                    <label id="templatesLabel">Modèles de fichiers à inclure :</label>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="python_file" value="python_file" checked>
+                            <label for="python_file">🐍 Python (.py)</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="python_notebook" value="python_notebook" checked>
+                            <label for="python_notebook">📓 Jupyter Notebook (.ipynb)</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="r_file" value="r_file">
+                            <label for="r_file">📊 R Script (.R)</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="stata_file" value="stata_file">
+                            <label for="stata_file">📈 Stata (.do)</label>
+                        </div>
                     </div>
                 </div>
+                
+                <button type="submit" class="download-btn">⬇️ Télécharger la structure</button>
+            </form>
+            
+            <div class="tips">
+                <h3 id="tipsTitle">💡 Quelques conseils :</h3>
+                <ul>
+                    <li id="tipItem1">Utilisez des underscores (_) ou notationChameau (mots collés avec majuscules) dans le nom du projet</li>
+                </ul>
             </div>
             
-            <button type="submit" class="download-btn">⬇️ Télécharger la structure</button>
-        </form>
-        
-        <div class="tips">
-            <h3>💡 Quelques conseils :</h3>
-            <ul>
-                <li>Utilisez des underscores (_) ou notationChameau (mots collés avec majuscules) dans le nom du projet</li>
-            </ul>
+            <div class="footer">
+                <p>API : <a href="/alive">/alive</a> | <a id="docsLink" href="/docs#/default/">Documentation API (Swagger)</a> | <a id="statsLink" href="/feedback/">Statistiques</a></p>
+                <p id="footerText" style="margin-top: 15px; font-size: 13px; color: #888; line-height: 1.5;">
+                    <!-- Content injected by JS -->
+                </p>
+                <p id="privacyText" style="margin-top: 10px; font-size: 12px; color: #aaa; font-style: italic;">
+                    <!-- Content injected by JS -->
+                </p>
+            </div>
         </div>
-        
-        <div class="footer">
-            <p>API : <a href="/alive">/alive</a> | <a id="docsLink" href="/docs#/default/">Documentation API (Swagger)</a> | <a id="statsLink" href="/feedback/">Statistiques</a></p>
-            <p id="footerText" style="margin-top: 15px; font-size: 13px; color: #888; line-height: 1.5;">
-                <!-- Content injected by JS -->
-            </p>
-            <p id="privacyText" style="margin-top: 10px; font-size: 12px; color: #aaa; font-style: italic;">
-                <!-- Content injected by JS -->
-            </p>
+
+        <div class="preview-panel">
+            <div class="preview-title">
+                <span>🔍</span> <span id="previewLabel">Prévisualisation de la structure</span>
+            </div>
+            <div id="structurePreview" class="tree">
+                <!-- Tree will be injected here -->
+            </div>
         </div>
     </div>
     
     <script>
-        let currentLanguage = 'fr';  // Track current language
+        let currentLanguage = 'fr';
         
         const translations = {
             fr: {
@@ -288,7 +358,8 @@ class HomeResource(object):
                 footer: 'Proposé par le groupe de travail "outils applicatifs communs" <br />du réseau des <a href="https://recherche.data.gouv.fr/fr/ateliers-de-la-donnee" target="_blank">ateliers de la donnée</a> <br />avec le soutien de <a href="https://recherche.data.gouv.fr" target="_blank">Recherche Data Gouv</a>.<br/><br/>Projet initial de <a href="https://www.tiesdekok.com/" target="_blank">Ties de Kok</a> <br/> Modifié par Virgile Jarrige (<a href="mailto:virgile.jarrige@unistra.fr">virgile.jarrige@unistra.fr</a>) <br />et William Demet (<a href="mailto:william.demet@ut-capitole.fr">william.demet@ut-capitole.fr</a>) <br/> <br /><a href="https://github.com/WillD31/Folder_Structure_Generator" target="_blank">Dépôt GitHub</a><br/><br/>Hébergé par le <a href="https://eu-eosc-vm.unistra.fr/" target="_blank">noeud EU EOSC - Virtual Machines</a>',
                 docs: 'Documentation API (Swagger)',
                 stats: 'Statistiques',
-                privacy: 'Aucune donnée personnelle n’est conservée sur ce serveur.'
+                privacy: 'Aucune donnée personnelle n’est conservée sur ce serveur.',
+                preview: 'Prévisualisation de la structure'
             },
             en: {
                 title: '📁 Folder Structure Generator',
@@ -304,18 +375,18 @@ class HomeResource(object):
                 footer: 'Proposed by the "common application tools" working group <br />of the <a href="https://recherche.data.gouv.fr/en/data-management-cluster" target="_blank">data managment clusters network</a> <br /> with the support of <a href="https://recherche.data.gouv.fr" target="_blank">Recherche Data Gouv</a>.<br/><br/>Original project by <a href="https://www.tiesdekok.com/" target="_blank">Ties de Kok</a> <br/> Modified by Virgile Jarrige (<a href="mailto:virgile.jarrige@unistra.fr">virgile.jarrige@unistra.fr</a>) <br />and William Demet (<a href="mailto:william.demet@ut-capitole.fr">william.demet@ut-capitole.fr</a>) <br/> <br /><a href="https://github.com/WillD31/Folder_Structure_Generator" target="_blank">GitHub Repository</a><br/><br/>Hosted by the <a href="https://eu-eosc-vm.unistra.fr/" target="_blank">EU EOSC - Virtual Machines node</a>',
                 docs: 'API Documentation (Swagger)',
                 stats: 'Statistics',
-                privacy: 'No personal data is stored on this server.'
+                privacy: 'No personal data is stored on this server.',
+                preview: 'Folder Structure Preview'
             }
         };
         
         function switchLanguage(lang) {
-            currentLanguage = lang;  // Update current language
+            currentLanguage = lang;
             
             document.querySelectorAll('.language-switch button').forEach(btn => {
                 btn.classList.remove('active');
             });
             
-            // Find and activate the correct button
             document.querySelectorAll('.language-switch button').forEach(btn => {
                 if (btn.textContent.includes(lang === 'fr' ? 'Français' : 'English')) {
                     btn.classList.add('active');
@@ -324,32 +395,112 @@ class HomeResource(object):
             
             const t = translations[lang];
             
-            // Apply all translations
-            document.querySelector('h1').textContent = t.title;
-            document.querySelector('.subtitle').textContent = t.subtitle;
-            document.querySelector('label[for="projectName"]').textContent = t.projectName;
+            document.getElementById('mainTitle').textContent = t.title;
+            document.getElementById('mainSubtitle').textContent = t.subtitle;
+            document.getElementById('labelProjectName').textContent = t.projectName;
             document.getElementById('projectName').placeholder = t.projectPlaceholder;
-            
-            // Update checkbox labels text
             document.getElementById('fullStructureText').textContent = t.fullStructure;
             document.getElementById('gitignoreText').textContent = t.gitignore;
-            
-            // Update templates label
             document.getElementById('templatesLabel').textContent = t.templates;
-            
             document.querySelector('.download-btn').textContent = t.download;
-            document.querySelector('.tips h3').textContent = t.tips;
-            
-            const tipsList = document.querySelectorAll('.tips li');
-            tipsList[0].textContent = t.tip1;
-
-            // Update footer
+            document.getElementById('tipsTitle').textContent = t.tips;
+            document.getElementById('tipItem1').textContent = t.tip1;
             document.getElementById('footerText').innerHTML = t.footer;
             document.getElementById('docsLink').textContent = t.docs;
             document.getElementById('statsLink').textContent = t.stats;
             document.getElementById('statsLink').href = `/feedback/?lang=${lang}`;
             document.getElementById('privacyText').textContent = t.privacy;
+            document.getElementById('previewLabel').textContent = t.preview;
+            
+            updatePreview();
         }
+
+        function updatePreview() {
+            const projectName = document.getElementById('projectName').value || '{project_name}';
+            const isFull = document.getElementById('fullStructure').checked;
+            const hasGitignore = document.getElementById('gitignore').checked;
+            
+            const templates = [];
+            document.querySelectorAll('.checkbox-group input[type="checkbox"]:checked').forEach(cb => {
+                templates.push(cb.value);
+            });
+
+            const previewDiv = document.getElementById('structurePreview');
+            previewDiv.innerHTML = '';
+
+            // Helper to add item
+            const addItem = (name, type, level) => {
+                const item = document.createElement('div');
+                item.className = 'tree-item';
+                item.style.marginLeft = (level * 20) + 'px';
+                
+                const icon = type === 'folder' ? '📁' : '📄';
+                const spanClass = type === 'folder' ? 'tree-folder' : 'tree-file';
+                
+                item.innerHTML = `<span>${icon}</span><span class="${spanClass}">${name}</span>`;
+                previewDiv.appendChild(item);
+            };
+
+            // Root
+            addItem(projectName + '/', 'folder', 0);
+
+            // 01 Admin
+            if (isFull) {
+                const adminName = currentLanguage === 'fr' ? '01_Administratif' : '01_Administrative';
+                addItem(adminName + '/', 'folder', 1);
+                addItem((currentLanguage === 'fr' ? '01_RH' : '01_HR') + '/', 'folder', 2);
+                addItem('02_Budget/', 'folder', 2);
+                addItem((currentLanguage === 'fr' ? '03_PGD' : '03_DMP') + '/', 'folder', 2);
+            }
+
+            // 02 Raw Data
+            const rawName = currentLanguage === 'fr' ? '02_Donnees_brutes' : '02_Raw_Data';
+            addItem(rawName + '/', 'folder', 1);
+
+            // 03 Processing
+            const procName = currentLanguage === 'fr' ? '03_Traitement_donnees' : '03_Data_processing';
+            addItem(procName + '/', 'folder', 1);
+            
+            // 03 sub folder Code
+            addItem('01_Code/', 'folder', 2);
+            addItem('01_Templates/', 'folder', 3);
+            
+            const templateFiles = {
+                'python_notebook': 'template_jupyter.ipynb',
+                'python_file': 'template_python.py',
+                'r_file': 'template_R.R',
+                'stata_file': 'template_stata.do'
+            };
+
+            templates.forEach(t => {
+                if (templateFiles[t]) {
+                    addItem(templateFiles[t], 'file', 4);
+                }
+            });
+
+            // 03 sub folder Data
+            addItem((currentLanguage === 'fr' ? '02_Donnees_traitees' : '02_Processed_data') + '/', 'folder', 2);
+
+            // 04 Publication
+            if (isFull) {
+                const pubName = currentLanguage === 'fr' ? '04_Publications' : '04_Publication';
+                addItem(pubName + '/', 'folder', 1);
+                addItem((currentLanguage === 'fr' ? '01_Bibliographie' : '01_Bibliography') + '/', 'folder', 2);
+                addItem((currentLanguage === 'fr' ? '02_Texte_publication' : '02_Publication_text') + '/', 'folder', 2);
+            }
+
+            // Other root files
+            if (hasGitignore) addItem('.gitignore', 'file', 1);
+            addItem('README.txt', 'file', 1);
+        }
+
+        // Event listeners for real-time update
+        document.getElementById('projectName').addEventListener('input', updatePreview);
+        document.getElementById('fullStructure').addEventListener('change', updatePreview);
+        document.getElementById('gitignore').addEventListener('change', updatePreview);
+        document.querySelectorAll('.checkbox-group input').forEach(el => {
+            el.addEventListener('change', updatePreview);
+        });
 
         // Detect browser language and initialize
         const userLang = navigator.language || navigator.userLanguage; 
@@ -358,23 +509,17 @@ class HomeResource(object):
         
         document.getElementById('folderForm').addEventListener('submit', function(e) {
             e.preventDefault();
-            
             const projectName = document.getElementById('projectName').value;
             const fullStructure = document.getElementById('fullStructure').checked ? '1' : '0';
             const gitignore = document.getElementById('gitignore').checked ? '1' : '0';
-            
             const templates = [];
             document.querySelectorAll('.checkbox-group input[type="checkbox"]:checked').forEach(cb => {
                 templates.push(cb.value);
             });
-            
-            // Use current interface language for folder structure
             let url = `/get_folder_structure?project_name=${encodeURIComponent(projectName)}&full_structure=${fullStructure}&include_git_ignore=${gitignore}&language=${currentLanguage}`;
-            
             if (templates.length > 0) {
                 url += `&templates=${templates.join(',')}`;
             }
-            
             window.location.href = url;
         });
     </script>
